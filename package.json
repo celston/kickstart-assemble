@@ -1,0 +1,31 @@
+{
+  "name": "kickstart-assemble",
+  "version": "1.0.0",
+  "description": "assemble for kickstart styleguide",
+  "main": "assemblefile.js",
+  "dependencies": {
+    "globule": "^0.2.0",
+    "handlebars": "^3.0.3",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "assemble": "^0.6.0-beta.5",
+    "engine-handlebars": "^0.6.1",
+    "extend-shallow": "^2.0.1",
+    "fs-utils": "^0.6.0",
+    "gulp-extname": "^0.2.0",
+    "lodash.merge": "^3.3.2",
+    "object.defaults": "^0.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "assemble",
+    "styleguide",
+    "kickstart",
+    "engine"
+  ],
+  "author": "Chris Wigley",
+  "license": "ISC"
+}
