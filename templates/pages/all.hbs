@@ -4,10 +4,12 @@
 
     <h1>This page should contain all the patterns in all pattern categories</h1>
     <!-- all partials start -->
-    {{#each pattern}}
+    {{#each this.components}}
       <!-- there should be pattern content here -->
-      {{@content}}
+      Hello
+      {{component .}}
     {{/each}}
+
     <!-- all partials end -->
   </div>
 

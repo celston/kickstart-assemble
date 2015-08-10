@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "assemble for kickstart styleguide",
   "main": "assemblefile.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/onenorth/kickstart-assemble.git"
+  },
   "dependencies": {
     "globule": "^0.2.0",
     "handlebars": "^3.0.3",
@@ -24,7 +28,10 @@
     "assemble",
     "styleguide",
     "kickstart",
-    "engine"
+    "handlebars",
+    "pattern lab",
+    "pattern",
+    "compiler"
   ],
   "author": "Chris Wigley",
   "license": "ISC"

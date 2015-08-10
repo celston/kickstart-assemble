@@ -1,17 +1,56 @@
+// node modules
+var path = require('path');
+
+// node_modules modules
+var _ = require('lodash');
 var assemble = require('assemble');
 var defaults = require('object.defaults');
 var extname = require('gulp-extname');
-var path = require('path');
-var _ = require('lodash');
 var Handlebars = require('handlebars');
+
+// local modules
 var config = require('./config');
 
-module.exports = function(opts, done) {
+// compile templates
+exports.templates = function compileTemplate(options, done) {
+  var app = assemble.init();
+  var opts = options || {};
+  var cwd = process.cwd();
+  var isProduction = opts.production || false;
+  var assets = opts.assets || 'assets';
+  var helpers = opts.helpers || [];
+  var layout = opts.layout || null;
+  var layouts = opts.layouts || [];
+  var partials = opts.partials || [];
+  var pages = opts.pages || [];
+  var dest = opts.dest || cwd;
+  var data = opts.data || {};
+
+  app.data(data);
+  app.option('production', isProduction);
+  app.option('assets', assets);
+  app.option('layout', layout);
+  app.engine('html', require('engine-handlebars'));
+  app.layouts(layouts);
+  app.partials(partials);
+
+  // assemble task
+  app.task('compile:templates', function() {
+    return app.src(pages)
+      .pipe(extname())
+      .pipe(app.dest(dest));
+  });
+
+  // run the tasks, then execute the callback
+  app.run('compile:templates');
+  done && done();
+}
+
+// compile styleguide
+exports.styleguide = function compileStyleguide(opts, done) {
+  var app = assemble.init();
   opts = opts || {};
 
-  // ===================
-  // Merge User Settings
-  // ===================
   var cwd = process.cwd();
   var isProduction = opts.production || config.production;
   var assets = opts.assets || config.assets;
@@ -22,47 +61,38 @@ module.exports = function(opts, done) {
   var patterns = opts.src ? path.resolve(cwd, opts.src) : {};
   var pages = opts.pages ? path.resolve(cwd, opts.pages) : config.pages;
   var dest = opts.dest ? path.resolve(cwd, opts.dest) : config.dest;
+  var data = opts.data ? opts.data : {};
 
-  var categories = Object.keys(opts.patterns);
-  categories.forEach(function(cat) {
-    assemble.helper(cat, function(pattern, context, options) {
-      options = _.extend(context, options);
-      var hash = options.hash || {};
-      options = _.extend({glob: {}, sep: '\n'}, options, opts.compose, hash);
-
-      var ctx = _.extend(assemble.data, opts, this);
-
-      var partial = assemble.findPartial(pattern);
-      var template = partial.render(options);
-      return new Handlebars.SafeString(template);
-    });
-  });
-
-  assemble.option('production', isProduction);
-  assemble.option('assets', assets);
-  assemble.option('layout', layout);
-  assemble.option('patterns', opts.patterns);
+  app.data(data);
+  app.option('production', isProduction);
+  app.option('assets', assets);
+  app.option('layout', layout);
 
   // register engine for .html files
-  assemble.engine('html', require('engine-handlebars'));
+  app.engine('html', require('engine-handlebars'));
 
   // register layouts and partials
-  assemble.layouts(layouts);
-  assemble.partials(partials);
+  app.layouts(layouts);
+  app.partials(partials);
 
+  // create assemble templates based on passed-in pattern categories
+  var categories = Object.keys(opts.patterns);
+  categories.forEach(function(cat) {
+    app.create(cat, {renderType: 'partial'});
+    app[cat](opts.patterns[cat]);
+  });
 
-  // ===================
-  // Styleguide Task
-  // ===================
-  assemble.task('styleguide', function() {
-    assemble.partials(patterns);
+  // assemble task
+  app.task('compile:styleguide', function() {
+    app.partials(patterns);
 
-    return assemble.src(pages)
+    return app.src(pages)
       .pipe(extname())
-      .pipe(assemble.dest(dest));
+      .pipe(app.dest(dest));
   });
 
   // run the tasks, then execute the callback
-  assemble.run('styleguide', done);
+  app.run('compile:styleguide');
+  done && done();
 
 }
