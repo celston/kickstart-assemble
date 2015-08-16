@@ -32,7 +32,15 @@ exports.templates = function compileTemplate(options, done) {
   app.option('layout', layout);
   app.engine('html', require('engine-handlebars'));
   app.layouts(layouts);
-  app.partials(partials);
+
+  if (_.isObject(partials)) {
+    for(var key in partials) {
+      app.create(key, {renderType: 'partial'});
+      app[key](partials[key]);
+    }
+  } else {
+    app.partials(partials);
+  }
 
   // assemble task
   app.task('compile:templates', function() {
@@ -42,8 +50,7 @@ exports.templates = function compileTemplate(options, done) {
   });
 
   // run the tasks, then execute the callback
-  app.run('compile:templates');
-  done && done();
+  app.run('compile:templates', done);
 }
 
 // compile styleguide
@@ -76,15 +83,21 @@ exports.styleguide = function compileStyleguide(opts, done) {
   app.partials(partials);
 
   // create assemble templates based on passed-in pattern categories
-  var categories = Object.keys(opts.patterns);
-  categories.forEach(function(cat) {
-    app.create(cat, {renderType: 'partial'});
-    app[cat](opts.patterns[cat]);
-  });
+  // or just use the source files that were passed in if there are no patterns
+  // passed in
+  if (_.isObject(opts.patterns)) {
+    var patternPartials = opts.patterns;
+    for(var key in patternPartials) {
+      app.create(key, {renderType: 'partial'});
+      app[key](patternPartials[key]);
+    }
+  } else {
+    app.partials(patterns);
+  }
 
   // assemble task
   app.task('compile:styleguide', function() {
-    app.partials(patterns);
+    // app.partials(patterns);
 
     return app.src(pages)
       .pipe(extname())
@@ -92,7 +105,7 @@ exports.styleguide = function compileStyleguide(opts, done) {
   });
 
   // run the tasks, then execute the callback
-  app.run('compile:styleguide');
-  done && done();
+  return app.run('compile:styleguide', done);
+  // done && done();
 
 }
