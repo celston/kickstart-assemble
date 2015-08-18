@@ -65,14 +65,28 @@ function compileStyleguide(opts, done) {
 
   var cwd = process.cwd();
   var isProduction = opts.production || config.production;
+
+  // we're only doing this in the case that the user is choosing to override
+  // the defaults for the styleguide generation
   var assets = opts.assets || config.assets;
   var helpers = opts.helpers || config.helpers;
+  // these really should be the styleguide layouts unless the user has
+  // passsed in their own layouts for the styleguide
   var layout = opts.layout || config.layout;
   var layouts = opts.layouts || config.layouts;
-  var partials = opts.partials ? path.resolve(cwd, opts.partials) : config.partials;
-  var patterns = opts.src ? path.resolve(cwd, opts.src) : {};
-  var pages = opts.pages ? path.resolve(cwd, opts.pages) : config.pages;
+  // these are the partials used by the styleguide
+  var includes = config.includes;
+  // these are the pages used to display the styleguide
+  var src = opts.src ? path.resolve(cwd, opts.src) : config.src;
+
+  // these are the user partials referenced in the user pages
+  var partials = opts.partials  || opts.partials || null;
+  // these are the user pages that should be displayed within the styleguide
+  var pages = opts.pages ? path.resolve(cwd, opts.pages) : {};
+  // this is the destination of the compiled styleguide
   var dest = opts.dest ? path.resolve(cwd, opts.dest) : config.dest;
+  // this is the user data that is referrenced with the user layouts, pages
+  // and partials
   var data = opts.data ? opts.data : {};
 
   app.data(data);
@@ -85,25 +99,24 @@ function compileStyleguide(opts, done) {
 
   // register layouts and partials
   app.layouts(layouts);
-  app.partials(partials);
+  app.partials(includes);
+  app.pages(pages);
 
   app.helper('toc', require('helper-toc'));
 
   // create assemble templates based on passed-in pattern categories
   // or just use the source files that were passed in if there are no patterns
   // passed in
-  if (_.isObject(opts.patterns)) {
-    var patternPartials = opts.patterns;
-
-    for(var key in patternPartials) {
+  if (_.isObject(partials)) {
+    for(var key in partials) {
       var singular = singularize(key);
       var plural = pluralize(key);
 
       app.create(plural, singular, {renderType: 'partial'});
-      app[plural](patternPartials[key]);
+      app[plural](partials[key]);
     }
   } else {
-    app.partials(patterns);
+    app.partials(partials);
   }
 
   app.asyncHelper('rendercollection', require('./helpers/helper-render-collection.js'));
@@ -111,8 +124,8 @@ function compileStyleguide(opts, done) {
 
   // assemble task
   app.task('compile:styleguide', function() {
-    console.log('app: ', app);
-    return app.src(pages)
+    // console.log('app: ', app);
+    return app.src(src)
       .pipe(tap(function(file, t) {
         console.log('file name: ', file.path);
       }))
