@@ -80,7 +80,7 @@ function compileStyleguide(opts, done) {
   var src = opts.src ? path.resolve(cwd, opts.src) : config.src;
 
   // these are the user partials referenced in the user pages
-  var partials = opts.partials  || opts.partials || null;
+  var partials = opts.partials || opts.patterns || opts.materials || null;
   // these are the user pages that should be displayed within the styleguide
   var pages = opts.pages ? path.resolve(cwd, opts.pages) : {};
   // this is the destination of the compiled styleguide
@@ -139,7 +139,7 @@ function compileStyleguide(opts, done) {
   });
 
   // run the tasks, then execute the callback
-  return app.run(['compile:styleguide', 'copy:assets'], done);
+  return app.run(['compile:styleguide'], done);
 
 }
 
