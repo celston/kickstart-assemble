@@ -8,7 +8,7 @@ module.exports = {
   helpers: path.resolve(__dirname, '../helpers/helper-data.js'),
   layouts: path.resolve(__dirname, '../templates/layouts/*.hbs'),
   layout: 'default-layout',
-  partials: path.resolve(__dirname, '../templates/includes/**/*.hbs'),
-  pages: path.resolve(__dirname, '../templates/pages/**/*.hbs'),
+  includes: path.resolve(__dirname, '../templates/includes/**/*.hbs'),
+  src: path.resolve(__dirname, '../templates/pages/**/*.hbs'),
   dest: path.resolve(process.cwd(), 'styleguide')
 };
