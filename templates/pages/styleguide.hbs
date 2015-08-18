@@ -7,8 +7,15 @@ layout: default-layout
 
   <!-- ks-patterns begin -->
   <article id="ks-patterns">
-  {{#each components}}
+  {{#each this.app.views.components}}
+    <!-- key -->
     {{@key}}
+    <!-- index -->
+    {{@index}}
+    <!-- content -->
+    {{@content}}
+    <!-- . -->
+    {{.}}
   {{/each}}
 
   </article>

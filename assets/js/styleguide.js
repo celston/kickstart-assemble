@@ -354,7 +354,7 @@ kickstart.setIframeSource = function() {
 
     if (!viewport) { return this; }
 
-    iFramePath = window.location.protocol + "//" + window.location.host + window.location.pathname.replace('index.html', '') + 'components.html';
+    iFramePath = window.location.protocol + "//" + window.location.host + window.location.pathname.replace('index.html', '') + 'all.html';
 
     viewport.contentWindow.location.replace(iFramePath);
 

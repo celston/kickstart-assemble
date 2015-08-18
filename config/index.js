@@ -4,7 +4,7 @@ var path = require('path');
 
 module.exports = {
   production: false,
-  assets: path.resolve(__dirname, '../assets'),
+  assets: path.resolve(process.cwd(), 'styleguide/assets'),
   helpers: path.resolve(__dirname, '../helpers/helper-data.js'),
   layouts: path.resolve(__dirname, '../templates/layouts/*.hbs'),
   layout: 'default-layout',

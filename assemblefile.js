@@ -3,16 +3,21 @@ var path = require('path');
 
 // node_modules modules
 var _ = require('lodash');
+var fse = require('fs-extra');
 var assemble = require('assemble');
 var defaults = require('object.defaults');
 var extname = require('gulp-extname');
 var Handlebars = require('handlebars');
+var tap = require('gulp-tap');
 
 // local modules
 var config = require('./config');
 
+module.exports.templates = compileTemplates;
+module.exports.styleguide = compileStyleguide;
+
 // compile templates
-exports.templates = function compileTemplate(options, done) {
+function compileTemplates(options, done) {
   var app = assemble.init();
   var opts = options || {};
   var cwd = process.cwd();
@@ -54,7 +59,7 @@ exports.templates = function compileTemplate(options, done) {
 }
 
 // compile styleguide
-exports.styleguide = function compileStyleguide(opts, done) {
+function compileStyleguide(opts, done) {
   var app = assemble.init();
   opts = opts || {};
 
@@ -82,30 +87,77 @@ exports.styleguide = function compileStyleguide(opts, done) {
   app.layouts(layouts);
   app.partials(partials);
 
+  app.helper('toc', require('helper-toc'));
+
   // create assemble templates based on passed-in pattern categories
   // or just use the source files that were passed in if there are no patterns
   // passed in
   if (_.isObject(opts.patterns)) {
     var patternPartials = opts.patterns;
+
     for(var key in patternPartials) {
-      app.create(key, {renderType: 'partial'});
-      app[key](patternPartials[key]);
+      var singular = singularize(key);
+      var plural = pluralize(key);
+
+      app.create(plural, singular, {renderType: 'partial'});
+      app[plural](patternPartials[key]);
     }
   } else {
     app.partials(patterns);
   }
 
+  app.asyncHelper('rendercollection', require('./helpers/helper-render-collection.js'));
+  app.asyncHelper('rendercollections', require('./helpers/helper-render-collections.js'));
+
   // assemble task
   app.task('compile:styleguide', function() {
-    // app.partials(patterns);
-
+    console.log('app: ', app);
     return app.src(pages)
+      .pipe(tap(function(file, t) {
+        console.log('file name: ', file.path);
+      }))
       .pipe(extname())
       .pipe(app.dest(dest));
   });
 
-  // run the tasks, then execute the callback
-  return app.run('compile:styleguide', done);
-  // done && done();
+  // copy assets (css, js, etc.) task
+  app.task('copy:assets', function(done) {
+    return fse.copy(__dirname + '/public/assets', dest + '/assets', done);
+  });
 
+  // run the tasks, then execute the callback
+  return app.run(['compile:styleguide', 'copy:assets'], done);
+
+}
+
+/**
+ * Detects if a string ends with a suffix
+ *
+ * @param {string} str    the string to check
+ * @param {string} suffix
+ *
+ * @return {boolean} returns 'true' if string ends with the suffix, 'false' if not
+ */
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+function isPlural(str) {
+  return endsWith(str, 's');
+}
+
+function pluralize(str) {
+  if (isPlural(str)) {
+    return str;
+  }
+
+  return str + 's';
+}
+
+function singularize(str) {
+  if (isPlural(str)) {
+    return str.substring(0, str.length - 1);
+  }
+
+  return str;
 }

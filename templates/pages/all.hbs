@@ -1,16 +1,15 @@
+---
+layout: frame-layout
+---
+
 <div class="ks-wrapper">
 
   <div class="ks-all">
+    {{!-- {{#toc "./public/home.html"}} --}}
 
-    <h1>This page should contain all the patterns in all pattern categories</h1>
-    <!-- all partials start -->
-    {{#each this.components}}
-      <!-- there should be pattern content here -->
-      Hello
-      {{component .}}
-    {{/each}}
-
-    <!-- all partials end -->
+    <!-- all collections start -->
+      {{rendercollections}}
+    <!-- all collections end -->
   </div>
 
 </div>
