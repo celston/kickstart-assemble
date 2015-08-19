@@ -1,1 +1,1 @@
-uglifyjs ./assets/js/prism.js ./assets/js/styleguide.js -c -o ./public/assets/js/styleguide.js
+uglifyjs ./lib/templates/assets/js/prism.js ./lib/templates/assets/js/styleguide.js -c -o ./dist/assets/js/styleguide.js

@@ -10,19 +10,33 @@ var extname = require('gulp-extname');
 var Handlebars = require('handlebars');
 var tap = require('gulp-tap');
 
-// local modules
-var config = require('./config');
+// set __dirname as the base top simplify requiring local modules
+require('app-module-path').addPath(__dirname);
 
+// set a global variable to store root dir for path references
+global.__base = global.__base || __dirname + '/';
+
+// local modules
+var config = require('lib/config');
+
+// export the functions for use in other modules
 module.exports.templates = compileTemplates;
 module.exports.styleguide = compileStyleguide;
 
-// compile templates
+/**
+ * [compileTemplates description]
+ *
+ * @param {[type]}   options [description]
+ * @param {Function} done    [description]
+ *
+ * @return {[type]}
+ */
 function compileTemplates(options, done) {
   var app = assemble.init();
   var opts = options || {};
   var cwd = process.cwd();
   var isProduction = opts.production || false;
-  var assets = opts.assets || 'assets';
+  var assets = opts.assets || '';
   var helpers = opts.helpers || [];
   var layout = opts.layout || null;
   var layouts = opts.layouts || [];
@@ -58,7 +72,14 @@ function compileTemplates(options, done) {
   app.run('compile:templates', done);
 }
 
-// compile styleguide
+/**
+ * [compileStyleguide description]
+ *
+ * @param {[type]}   opts [description]
+ * @param {Function} done [description]
+ *
+ * @return {[type]}
+ */
 function compileStyleguide(opts, done) {
   var app = assemble.init();
   opts = opts || {};
@@ -66,9 +87,17 @@ function compileStyleguide(opts, done) {
   var cwd = process.cwd();
   var isProduction = opts.production || config.production;
 
+  // the kickstart-assemble pages used to display the styleguide patterns
+  var src = opts.src ? path.resolve(cwd, opts.src) : config.src;
+  // this is the destination of the compiled styleguide
+  var dest = opts.dest ? path.resolve(cwd, opts.dest) : config.dest;
+
+  // set the assets path if provided and make it relative to the dest just
+  // to be safe
+  var assets = opts.assetPath || '';
+
   // we're only doing this in the case that the user is choosing to override
   // the defaults for the styleguide generation
-  var assets = opts.assets || config.assets;
   var helpers = opts.helpers || config.helpers;
   // these really should be the styleguide layouts unless the user has
   // passsed in their own layouts for the styleguide
@@ -76,15 +105,11 @@ function compileStyleguide(opts, done) {
   var layouts = opts.layouts || config.layouts;
   // these are the partials used by the styleguide
   var includes = config.includes;
-  // these are the pages used to display the styleguide
-  var src = opts.src ? path.resolve(cwd, opts.src) : config.src;
 
   // these are the user partials referenced in the user pages
   var partials = opts.partials || opts.patterns || opts.materials || null;
   // these are the user pages that should be displayed within the styleguide
   var pages = opts.pages ? path.resolve(cwd, opts.pages) : {};
-  // this is the destination of the compiled styleguide
-  var dest = opts.dest ? path.resolve(cwd, opts.dest) : config.dest;
   // this is the user data that is referrenced with the user layouts, pages
   // and partials
   var data = opts.data ? opts.data : {};
@@ -119,8 +144,8 @@ function compileStyleguide(opts, done) {
     app.partials(partials);
   }
 
-  app.asyncHelper('rendercollection', require('./helpers/helper-render-collection.js'));
-  app.asyncHelper('rendercollections', require('./helpers/helper-render-collections.js'));
+  app.asyncHelper('rendercollection', require('lib/helpers/helper-render-collection.js'));
+  app.asyncHelper('rendercollections', require('lib/helpers/helper-render-collections.js'));
 
   // assemble task
   app.task('compile:styleguide', function() {
@@ -135,11 +160,11 @@ function compileStyleguide(opts, done) {
 
   // copy assets (css, js, etc.) task
   app.task('copy:assets', function(done) {
-    return fse.copy(__dirname + '/public/assets', dest + '/assets', done);
+    return fse.copy(__base + '/dist/assets', dest + '/public', done);
   });
 
   // run the tasks, then execute the callback
-  return app.run(['compile:styleguide'], done);
+  return app.run(['compile:styleguide', 'copy:assets'], done);
 
 }
 
@@ -155,10 +180,24 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
+/**
+ * [isPlural description]
+ *
+ * @param {[type]} str [description]
+ *
+ * @return {Boolean}
+ */
 function isPlural(str) {
   return endsWith(str, 's');
 }
 
+/**
+ * [pluralize description]
+ *
+ * @param {[type]} str [description]
+ *
+ * @return {[type]}
+ */
 function pluralize(str) {
   if (isPlural(str)) {
     return str;
@@ -167,6 +206,13 @@ function pluralize(str) {
   return str + 's';
 }
 
+/**
+ * [singularize description]
+ *
+ * @param {[type]} str [description]
+ *
+ * @return {[type]}
+ */
 function singularize(str) {
   if (isPlural(str)) {
     return str.substring(0, str.length - 1);

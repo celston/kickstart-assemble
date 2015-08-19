@@ -1,1 +1,1 @@
-node-sass --include-path assets/css/src/partials assets/css/src/styleguide.scss | postcss --use autoprefixer --autoprefixer.browsers 'last 2 versions' -o public/assets/css/styleguide.css
+node-sass --include-path lib/templates/assets/css/src/partials lib/templates/assets/css/src/styleguide.scss | postcss --use autoprefixer --autoprefixer.browsers 'last 2 versions' -o dist/assets/css/styleguide.css
