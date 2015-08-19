@@ -46,6 +46,6 @@
     "pattern",
     "compiler"
   ],
-  "author": "Chris Wigley",
-  "license": "MIT"
+  "license": "MIT",
+  "readme": "README.md"
 }
