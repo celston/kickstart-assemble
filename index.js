@@ -7,7 +7,6 @@ var fse = require('fs-extra');
 var assemble = require('assemble');
 var defaults = require('object.defaults');
 var extname = require('gulp-extname');
-var Handlebars = require('handlebars');
 var tap = require('gulp-tap');
 
 // set __dirname as the base top simplify requiring local modules
