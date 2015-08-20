@@ -1,0 +1,39 @@
+h1, .ks-h1,
+h2, .ks-h2,
+h3, .ks-h3,
+h4, .ks-h4,
+h5, .ks-h5,
+h6, .ks-h6 {
+  font-weight: $ks-heading-font-weight;
+}
+
+.ks-h1 {
+  font-size: map-get($headings, h1);
+  margin-bottom: $spacing-roomy;
+  text-transform: uppercase;
+}
+
+.ks-h2 {
+  font-size: map-get($headings, h2);
+  margin: $spacing-roomy 0;
+}
+
+.ks-h3 {
+  font-size: map-get($headings, h3);
+  margin: $spacing-default 0;
+}
+
+.ks-h4 {
+  font-size: map-get($headings, h4);
+  margin: $spacing-default 0;
+}
+
+.ks-h5 {
+  font-size: map-get($headings, h5);
+  margin: $spacing-default 0;
+}
+
+.ks-h6 {
+  font-size: map-get($headings, h6);
+  margin: $spacing-default 0;
+}
