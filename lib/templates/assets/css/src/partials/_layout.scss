@@ -2,12 +2,25 @@
     @include box-sizing(inherit);
 }
 
+#ks-html {
+    @include box-sizing(border-box);
+
+    height: 100%;
+
+    @media (max-width: 60em) {
+        &.state--menu-active {
+            overflow: hidden;
+        }
+    }
+}
+
 #ks-body {
-    background-color: map-get($colors, white);
+    margin: 0;
     height: 100%;
     font-family: $ks-body-font-stack;
     font-weight: $ks-body-font-weight;
     line-height: $ks-line-height;
+    background-color: map-get($colors, white);
 }
 
 .ks-wrapper {
@@ -54,172 +67,39 @@
     background: #FFF;
 }
 
-.t-wrapper {
-    padding: $spacing-roomy;
-}
+//  =========================
+//  Navigation Menu Toggle
+//  =========================
+// show or hide nav on smaller screens
+// .t-menuToggle {
 
+//     svg {
+//         display: inline-block;
+//         width: 1rem;
+//         height: 1rem;
+//         vertical-align: middle;
+//         fill: map-get($colors, whisper);
+//     }
 
-.t-page {
-    width: 100%; // was 92% - why?
-    min-height: 100%;
-    @media screen and (min-width: 55em) {
-        margin-left: 23.6068%;
-        padding-bottom: 8rem;
-    }
+//     @media screen and (min-width: 55em) {
+//         display: none;
+//     }
+// }
 
-    @media screen and (min-width: 62.5em) {
-        width: 61.8034%;
-    }
-}
+// .t-menuToggle__label {
+//     margin-left: $spacing-tight;
+// }
 
-.t-page__header {
-    background-color: map-get($colors, lightblue);
-    font-size: $ks-font-size-base*2.5;
-    line-height: 1;
-    color: map-get($colors, blue);
-
-    h1 {
-        font-size: map-get($headings, h1);
-        margin-top: 0;
-
-        &:last-of-type:last-child {
-            margin-bottom: 0;
-        }
-    }
-
-    p {
-        font-size: $ks-font-size-base*1.25;
-        line-height: 1.5;
-        color: map-get($colors, white);
-
-        @media screen and (min-width: 60em) {
-            // could pass a media query variable in here to a map-get call
-            // which would calculate the font size and line height based
-            // on the media query
-            font-size: $ks-font-size-base*1.5;
-        }
-    }
-}
-
-.t-page__content {
-    background: map-get($colors, white);
-}
-
-.t-button {
-    display: inline-block;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    font-family: $ks-body-font-stack;
-    font-size: 1rem;
-    line-height: 1.2rem;
-    font-weight: 700;
-    user-select: none;
-    cursor: pointer;
-    text-shadow: $ks-text-shadow;
-    border: 0;
-    border-bottom: 2px solid rgba(0,0,0,0);
-    border-radius: .25rem;
-    box-shadow: none;
-    background: map-get($colors, blue);
-    color: map-get($colors, white) !important;
-    text-align: center;
-    white-space: no-wrap;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    padding: $spacing-tight $spacing-default $spacing-tight;
-
-    &:active {
-        border-bottom-color: rgba(0,0,0,0) !important;
-        box-shadow: inset 0 2px 1px rgba(0,0,0,0.35);
-    }
-
-    &:focus,
-    &:hover {
-        border-bottom-color: rgba(0,0,0,0.35);
-        outline: 0;
-        text-decoration: none;
-    }
-}
-
-.t-button--large {
-    padding: $spacing-default $spacing-roomy $spacing-default;
-}
-
-.t-articleButtons {
-    padding: $spacing-roomy 0 $spacing-default 0;
-    text-align:center;
-}
-
-.t-buttonOr {
-    display: inline-block;
-    font-size: map-get($headings, h4);
-    vertical-align: middle;
-    margin: 0 $spacing-tight;
-}
-
-.t-menuToggle {
-
-    svg {
-        display: inline-block;
-        width: 1rem;
-        height: 1rem;
-        vertical-align: middle;
-        fill: map-get($colors, whisper);
-    }
-
-    @media screen and (min-width: 55em) {
-        display: none;
-    }
-}
-
-.t-menuToggle__label {
-    margin-left: $spacing-tight;
-}
-
-// TEMP
-.t-hr {
-    border: none;
-    border-top: 2px solid map-get($colors, whisper);
-    margin: 0 0 $spacing-roomy;
-}
-
-// home page color chips
-.t-colorChips {
+//  =========================
+//  Color Chips
+//  =========================
+.ks-color-chips {
     padding: 0;
 }
 
-.t-section {
-    position: relative;
-}
-
-.t-section__header {
-    border-bottom: 1px solid map-get($colors, light);
-    margin-bottom: $spacing-default;
-
-    h1 {
-        margin-bottom: 0;
-    }
-}
-
-.t-section__notes {
-    padding-bottom: $spacing-default;
-    border-bottom: 1px solid map-get($colors, light);
-}
-
-.t-section__controls {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.t-example {
-    margin-bottom: $spacing-roomy;
-}
-
-.t-example__name {
-    margin-bottom: $spacing-tight;
-}
-
+//  =========================
+//  Code Examples
+//  =========================
 .t-example__notes {
     margin-bottom: $spacing-default;
     color: map-get($colors, medium);

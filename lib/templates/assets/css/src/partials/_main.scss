@@ -1,32 +1,4 @@
 /* main */
-
-html {
-    @include box-sizing(border-box);
-
-    height: 100%;
-
-    @media (max-width: 60em) {
-        &.state--menu-active {
-            overflow: hidden;
-        }
-    }
-}
-
-body {
-    margin: 0;
-    min-height: 100%;
-}
-
-p {
-    margin-top: 0;
-}
-
-a {
-    background: rgba(0,0,0,0);
-    color: map-get($colors, links);
-    text-decoration: none;
-}
-
 .bg-s-med {
     background-color: map-get($colors, light);
 }

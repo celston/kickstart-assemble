@@ -1,4 +1,5 @@
 .ks-nav {
+  position: relative;
   background-color: map-get($colors, menu-background);
 }
 
@@ -11,6 +12,7 @@
 
   a {
     @include display(block);
+    @include no-interaction-state;
 
     padding: 1rem;
     color: map-get($colors, whisper);

@@ -1,14 +1,18 @@
-.t-controls {
+.ks-controls {
     @include clearfix;
 
-    .t-icon {
-        background: rgba(0,0,0,0);
-        border: none;
-        box-sizing: border-box;
-        font-size: 14px;
-        width: 33.333333333%;
-        text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    .ks-icon {
         float: left;
+        width: 33.333333333%;
+        padding: 16px;
+        border: none;
+        font-size: 14px;
+        text-align: center;
+        background: rgba(0,0,0,0);
         cursor: pointer;
 
         &:hover:not(.t-active) {
@@ -22,9 +26,9 @@
         }
 
         svg {
+            display: inline-block;
             width: 1em;
             height: 1em;
-            display: inline-block;
             vertical-align: middle;
         }
 
@@ -33,11 +37,10 @@
         }
     }
 
-    .t-active {
+    .ks-active {
         background-color: mix(map-get($colors, light), map-get($colors, dark), 90%);
         use {
-            //fill: map-get($colors, emphasis);
-            fill: #07a;
+            fill: map-get($colors, emphasis);
         }
     }
 }
