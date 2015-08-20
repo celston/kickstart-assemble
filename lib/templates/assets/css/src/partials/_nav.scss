@@ -1,0 +1,33 @@
+.ks-nav {
+  background-color: map-get($colors, menu-background);
+}
+
+.ks-nav-group {
+  @include list-unstyled;
+}
+
+.ks-nav-group__title {
+  @include display(inline-block);
+
+  a {
+    @include display(block);
+
+    padding: 1rem;
+    color: map-get($colors, whisper);
+  }
+}
+
+.ks-nav-group__items {
+  @include list-unstyled;
+}
+
+.ks-nav__item {
+  @include display(inline-block);
+}
+
+.ks-nav__link {
+  @include display(block);
+  @include no-interaction-state;
+
+  padding: 1rem;
+}

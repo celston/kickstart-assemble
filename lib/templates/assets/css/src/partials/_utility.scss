@@ -261,7 +261,7 @@
 }
 
     .mas {
-        margin: $default-spacing / 2;
+        margin: $spacing-tight;
     }
 
     .mbn {
@@ -269,27 +269,27 @@
     }
 
     .mbxs {
-        margin-bottom: $default-spacing / 4;
+        margin-bottom: $spacing-tight / 2;
     }
 
     .mbs {
-        margin-bottom: $default-spacing / 2;
+        margin-bottom: $spacing-tight;
     }
 
     .mbm {
-        margin-bottom: $default-spacing;
+        margin-bottom: $spacing-default;
     }
 
     .mbx {
-        margin-bottom: $default-spacing * 1.5;
+        margin-bottom: $spacing-default * 1.5;
     }
 
     .mbxx {
-        margin-bottom: $default-spacing * 2;
+        margin-bottom: $spacing-default * 2;
     }
 
     .mbxxx {
-        margin-bottom: $default-spacing * 3;
+        margin-bottom: $spacing-default * 3;
     }
 
 .mtn {
@@ -297,32 +297,32 @@
 }
 
     .mts {
-        margin-top: $default-spacing / 2;
+        margin-top: $spacing-tight;
     }
 
     .mtm {
-        margin-top: $default-spacing;
+        margin-top: $spacing-default;
     }
 
     .mtl {
-        margin-top: $default-spacing * 1.25;
+        margin-top: $spacing-default * 1.25;
     }
 
     .mtx {
-        margin-top: $default-spacing * 1.5;
+        margin-top: $spacing-default * 1.5;
     }
 
     .mtxx {
-        margin-top: $default-spacing * 2;
+        margin-top: $spacing-default * 2;
     }
 
 .mhm {
-    margin-left: $default-spacing;
-    margin-right: $default-spacing;
+    margin-left: $spacing-default;
+    margin-right: $spacing-default;
 }
 
 .mls {
-    margin-left: $default-spacing / 2;
+    margin-left: $spacing-tight;
 }
 
 .mrn {
@@ -330,23 +330,23 @@
 }
 
     .mrs {
-        margin-right: $default-spacing / 2;
+        margin-right: $spacing-tight;
     }
 
     .mr {
-        margin-right: $default-spacing;
+        margin-right: $spacing-default;
     }
 
     .mrl {
-        margin-right: $default-spacing * 1.25;
+        margin-right: $spacing-default * 1.25;
     }
 
     .mrx {
-        margin-right: $default-spacing * 1.5;
+        margin-right: $spacing-default * 1.5;
     }
 
     .mrxx {
-        margin-right: $default-spacing * 2;
+        margin-right: $spacing-default * 2;
     }
 
 
@@ -358,104 +358,104 @@
 }
 
 .pam {
-    padding: $default-spacing;
+    padding: $spacing-default;
 }
 
 .pal {
-    padding: $default-spacing * 2;
+    padding: $spacing-default * 2;
 }
 
 .pas {
-    padding: $default-spacing / 2;
+    padding: $spacing-tight;
 }
 
 .ph {
-    padding-left: $default-spacing;
-    padding-right: $default-spacing;
+    padding-left: $spacing-default;
+    padding-right: $spacing-default;
 }
 
 .phm {
-    padding-left: $default-spacing;
-    padding-right: $default-spacing;
+    padding-left: $spacing-default;
+    padding-right: $spacing-default;
 }
 
 .phl {
-    padding-left: $default-spacing * 2;
-    padding-right: $default-spacing * 2;
+    padding-left: $spacing-default * 2;
+    padding-right: $spacing-default * 2;
 }
 
 .pvs {
-    padding-bottom: $default-spacing / 2;
-    padding-top: $default-spacing /2;
+    padding-bottom: $spacing-tight;
+    padding-top: $spacing-default /2;
 }
 
 .pvm {
-    padding-bottom: $default-spacing;
-    padding-top: $default-spacing;
+    padding-bottom: $spacing-default;
+    padding-top: $spacing-default;
 }
 
 .pvx {
-    padding-bottom: $default-spacing * 1.125;
-    padding-top: $default-spacing * 1.125;
+    padding-bottom: $spacing-default * 1.125;
+    padding-top: $spacing-default * 1.125;
 }
 
 .pvl {
-    padding-bottom: $default-spacing * 1.5;
-    padding-top: $default-spacing * 1.5;
+    padding-bottom: $spacing-default * 1.5;
+    padding-top: $spacing-default * 1.5;
 }
 
 .pbm {
-    padding-bottom: $default-spacing;
+    padding-bottom: $spacing-default;
 }
 
 .pbl {
-    padding-bottom: $default-spacing * 1.25;
+    padding-bottom: $spacing-default * 1.25;
 }
 
 .pbxl {
-    padding-bottom: $default-spacing * 3;
+    padding-bottom: $spacing-default * 3;
 }
 
 .pbxx {
-    padding-bottom: $default-spacing * 2;
+    padding-bottom: $spacing-default * 2;
 }
 
 .plxl {
-    padding-left: $default-spacing * 4;
+    padding-left: $spacing-default * 4;
 }
 
 .prxl {
-    padding-right: $default-spacing * 4;
+    padding-right: $spacing-default * 4;
 }
 
 .pvxl {
-    padding-bottom: $default-spacing * 4;
-    padding-top: $default-spacing * 4;
+    padding-bottom: $spacing-default * 4;
+    padding-top: $spacing-default * 4;
 }
 
 .phxx {
-    padding-left: $default-spacing * 1.5;
-    padding-right: $default-spacing * 1.5;
+    padding-left: $spacing-default * 1.5;
+    padding-right: $spacing-default * 1.5;
 }
 
 .pts {
-    padding-top: $default-spacing / 2;
+    padding-top: $spacing-tight;
 }
 
 .ptm {
-    padding-top: $default-spacing;
+    padding-top: $spacing-default;
 }
 
 .ptl {
-    padding-top: $default-spacing * 1.125;
+    padding-top: $spacing-default * 1.125;
 }
 
 .ptx {
-    padding-top: $default-spacing * 1.5;
+    padding-top: $spacing-default * 1.5;
 }
 
 .ptxx {
-    padding-top: $default-spacing * 1.5;
+    padding-top: $spacing-default * 1.5;
 }
 
 .ptn {

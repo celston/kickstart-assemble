@@ -13,7 +13,9 @@ $theme-dark: (
     menu-background: lighten(map-get($base-colors, blue), 4%),
     emphasis: map-get($base-colors, light),
     normal: map-get($base-colors, medium),
-    whisper: lighten(map-get($base-colors, medium), 15%)
+    dark: map-get($base-colors, dark),
+    whisper: lighten(map-get($base-colors, medium), 15%),
+    links: map-get($base-colors, blue)
 );
 
 $theme-light: (
@@ -36,12 +38,23 @@ $ks-body-font-stack: 'PT Sans', 'Helvetica Neue', Arial, sans-serif;
 $ks-heading-font-stack: $ks-body-font-stack;
 $ks-code-font-stack: "Source Code Pro", "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
 $ks-body-font-weight: 400;
-$ks-heading-font-weigth: 700;
+$ks-heading-font-weight: 700;
 $ks-font-size-base: 16px;
 $ks-line-height: 1.5;
 
+$headings: (
+    h1: $ks-font-size-base * 2.5,
+    h2: $ks-font-size-base * 2,
+    h3: $ks-font-size-base * 1.5,
+    h4: $ks-font-size-base * 1.2,
+    h5: $ks-font-size-base * 1.1,
+    h6: $ks-font-size-base * 1
+);
+
 // sizes and spacing
-$default-spacing: 16px;
+$spacing-default: 16px * $ks-line-height;
+$spacing-tight: 16px * ($ks-line-height / 2);
+$spacing-roomy: 16px * ($ks-line-height * 2);
 
 // layout
 $max-page-width: 1400px;

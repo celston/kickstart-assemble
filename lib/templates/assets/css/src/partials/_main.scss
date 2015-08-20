@@ -1,8 +1,10 @@
 /* main */
 
 html {
-    box-sizing: border-box;
+    @include box-sizing(border-box);
+
     height: 100%;
+
     @media (max-width: 60em) {
         &.state--menu-active {
             overflow: hidden;
@@ -21,7 +23,7 @@ p {
 
 a {
     background: rgba(0,0,0,0);
-    color: map-get($colors, blue);
+    color: map-get($colors, links);
     text-decoration: none;
 }
 
@@ -42,16 +44,4 @@ a {
 .s-h-card {
     max-width: 72em;
     margin: 0 auto;
-}
-
-.st-h1,
-.st-h2 {
-    font-weight: normal;
-    letter-spacing: 0;
-    text-align: center;
-}
-
-.page-menu {
-    background-color: map-get($colors, white);
-    margin-top: $default-spacing * 5.5;
 }
