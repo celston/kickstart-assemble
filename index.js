@@ -3,11 +3,11 @@ var path = require('path');
 
 // node_modules modules
 var _ = require('lodash');
-var fse = require('fs-extra');
 var assemble = require('assemble');
 var defaults = require('object.defaults');
 var extname = require('gulp-extname');
 var tap = require('gulp-tap');
+var async = require('async');
 
 // set __dirname as the base top simplify requiring local modules
 require('app-module-path').addPath(__dirname);
@@ -94,7 +94,6 @@ function compileStyleguide(opts, done) {
   // set the assets path if provided and make it relative to the dest just
   // to be safe
   var assets = opts.assetPath || '';
-
   // we're only doing this in the case that the user is choosing to override
   // the defaults for the styleguide generation
   var helpers = opts.helpers || config.helpers;
@@ -104,19 +103,41 @@ function compileStyleguide(opts, done) {
   var layouts = opts.layouts || config.layouts;
   // these are the partials used by the styleguide
   var includes = config.includes;
-
+  var patterns = opts.patterns || [];
   // these are the user partials referenced in the user pages
-  var partials = opts.partials || opts.patterns || opts.materials || null;
+  var partials = opts.partials || opts.includes || opts.materials || null;
   // these are the user pages that should be displayed within the styleguide
   var pages = opts.pages ? path.resolve(cwd, opts.pages) : {};
   // this is the user data that is referrenced with the user layouts, pages
   // and partials
   var data = opts.data ? opts.data : {};
 
+  // create assemble templates based on passed-in pattern categories
+  // or just use the source files that were passed in if there are no patterns
+  // passed in
+  if (_.isObject(partials)) {
+    var keys = Object.keys(partials);
+
+    if (patterns.length === 0) {
+      patterns = keys;
+    }
+
+    keys.forEach(function(key) {
+      var singular = singularize(key);
+      var plural = pluralize(key);
+
+      app.create(plural, singular, { renderType: 'partial' });
+      app[plural](partials[key]);
+    });
+  } else {
+    app.partials(partials);
+  }
+
   app.data(data);
   app.option('production', isProduction);
   app.option('assets', assets);
   app.option('layout', layout);
+  app.option('patterns', patterns);
 
   // register engine for .html files
   app.engine('html', require('engine-handlebars'));
@@ -126,40 +147,24 @@ function compileStyleguide(opts, done) {
   app.partials(includes);
   app.pages(pages);
 
-  app.helper('toc', require('helper-toc'));
-
-  // create assemble templates based on passed-in pattern categories
-  // or just use the source files that were passed in if there are no patterns
-  // passed in
-  if (_.isObject(partials)) {
-    for(var key in partials) {
-      var singular = singularize(key);
-      var plural = pluralize(key);
-
-      app.create(plural, singular, {renderType: 'partial'});
-      app[plural](partials[key]);
-    }
-  } else {
-    app.partials(partials);
-  }
-
-  app.asyncHelper('rendercollection', require('lib/helpers/helper-render-collection.js'));
-  app.asyncHelper('rendercollections', require('lib/helpers/helper-render-collections.js'));
+  app.asyncHelper('styleguide-collection', require('lib/helpers/helper-render-collection.js'));
+  app.asyncHelper('styleguide-collections', require('lib/helpers/helper-render-collections.js'));
+  app.asyncHelper('styleguide-navigation', require('lib/helpers/helper-render-navigation.js'));
 
   // assemble task
   app.task('compile:styleguide', function() {
     // console.log('app: ', app);
-    return app.src(src)
-      .pipe(tap(function(file, t) {
-        console.log('file name: ', file.path);
-      }))
+    app.src(src)
+      // .pipe(tap(function(file, t) {
+      //   console.log('file name: ', file.path);
+      // }))
       .pipe(extname())
       .pipe(app.dest(dest));
   });
 
-  // copy assets (css, js, etc.) task
-  app.task('copy:assets', function(done) {
-    return fse.copy(__base + '/dist/assets', dest + '/public', done);
+  // copy assets task
+  app.task('copy:assets', function() {
+    assemble.copy(__base + '/dist/assets/**', dest + '/public/');
   });
 
   // run the tasks, then execute the callback
