@@ -8,7 +8,6 @@
     "url": "git@github.com/onenorth/kickstart-assemble.git"
   },
   "dependencies": {
-    "app-root-path": "^1.0.0",
     "assemble": "^0.6.0-beta.5",
     "async": "^1.4.2",
     "chalk": "^1.1.1",
