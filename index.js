@@ -1,8 +1,4 @@
 'use strict';
-
-// set __dirname as the base top simplify requiring local modules
-global.reqlib = require('app-root-path').require;
-
 // set a global variable to store root dir for path references
 global.__base = global.__base || __dirname + '/';
 
@@ -129,7 +125,7 @@ function compileStyleguide(options, done) {
   // ======================
   // Handle Pattern Files
   // ======================
-  var collections = reqlib('/lib/loaders/pattern-collections.js')(app);
+  var collections = require('./lib/loaders/pattern-collections.js')(app);
 
   // load the pattern partials
   // if the partials value is an object, the the keys are pattern categories
@@ -156,9 +152,9 @@ function compileStyleguide(options, done) {
   // ======================
   // Helpers
   // ======================
-  app.asyncHelper('styleguide-collection', reqlib('/lib/helpers/helper-render-collection.js'));
-  app.asyncHelper('styleguide-collections', reqlib('/lib/helpers/helper-render-collections.js'));
-  app.asyncHelper('styleguide-navigation', reqlib('/lib/helpers/helper-render-navigation.js'));
+  app.asyncHelper('styleguide-collection', require('./lib/helpers/helper-render-collection.js'));
+  app.asyncHelper('styleguide-collections', require('./lib/helpers/helper-render-collections.js'));
+  app.asyncHelper('styleguide-navigation', require('./lib/helpers/helper-render-navigation.js'));
 
   /**
    * Compile Styleguide task
