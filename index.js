@@ -169,17 +169,20 @@ function compileStyleguide(options, done) {
    * @param {function}
    */
   app.task('compile:styleguide', function() {
-    // copy static assets over to dest
-    app.copy(__base + '/dist/assets/**', path.resolve(opts.dest, opts.assets));
-
     // pipe the source files though to dest
     return app.src(opts.src)
       .pipe(extname())
       .pipe(app.dest(opts.dest));
   });
 
+  // copy styleguide assets over to styleguide dest folder
+  app.task('copy:assets', function() {
+    var dest = path.join(opts.dest, opts.assets);
+    app.copy(__base + '/dist/assets/**', dest);
+  });
+
   // run the tasks, then execute the callback
-  return app.run('compile:styleguide', done);
+  return app.run(['compile:styleguide', 'copy:assets'], done);
 
 }
 
