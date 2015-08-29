@@ -38,7 +38,7 @@ function compileSite(options, done) {
   var dest = opts.dest || cwd;
   var data = opts.data || {};
 
-  app.engine('html', require('engine-handlebars'));
+  app.engine('html', require('engine-assemble'));
 
   app.data(data);
   app.option('production', isProduction);
@@ -61,7 +61,14 @@ function compileSite(options, done) {
    * @param {function}
    */
   app.task('compile:site', function() {
+    var filter = require('gulp-filter')(function(file) {
+      return /\.(markdown|md|mdown|mkd)$/.test(file.ext);
+    }, { restore: true} );
+
     return app.src(pages)
+      .pipe(filter)
+      .pipe(require('gulp-markdown')())
+      .pipe(filter.restore)
       .pipe(extname())
       .pipe(app.dest(dest));
   });
@@ -109,7 +116,7 @@ function compileStyleguide(options, done) {
   // App Configuration
   // ======================
   // register engine for .html files
-  app.engine('html', require('engine-handlebars'));
+  app.engine('html', require('engine-assemble'));
   // json,yml data sources
   app.data(opts.data);
   app.option('production', opts.production);
@@ -163,7 +170,7 @@ function compileStyleguide(options, done) {
    */
   app.task('compile:styleguide', function() {
     // copy static assets over to dest
-    app.copy(__base + '/dist/assets/**', opts.dest + '/public/');
+    app.copy(__base + '/dist/assets/**', path.resolve(opts.dest, opts.assets));
 
     // pipe the source files though to dest
     return app.src(opts.src)
