@@ -44,6 +44,10 @@ function compileSite(options, done) {
   app.option('production', isProduction);
   app.option('assets', assets);
   app.option('layout', layout);
+  
+  // register user-defined helpers
+  app.helpers(helpers);
+  // add user-defined layouts
   app.layouts(layouts);
 
   if (_.isObject(partials)) {
@@ -122,6 +126,8 @@ function compileStyleguide(options, done) {
   app.option('production', opts.production);
   app.option('assets', opts.assets);
   app.option('layout', opts.layout);
+  // register user-defined helpers
+  app.helpers(opts.helpers);
    // register patterns
   app.option('patternCategories', opts.patternCategories);
   // register layouts and partials
